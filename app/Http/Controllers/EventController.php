@@ -18,7 +18,10 @@ class EventController extends Controller
     {
         $event = Event::all();
         //$venue = Venue::find();
-
+        $venue = Venue::all();
+        // $venueid = $event['venue_id'];
+        // $venue = Venue::find($venue_id);
+        // $venuename = $venue->venue_name;
         return view('events.index')->with('event', $event);
     }
 
@@ -69,6 +72,7 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::find($id);
+               
         return view('events.show')->with('event', $event);
     }
 

@@ -19,3 +19,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('venues', 'VenueController');
 Route::resource('events', 'EventController');
+Route::resource('calendars', 'CalendarController');
+Route::resource('feedbacks', 'FeedbacksController');
