@@ -49,9 +49,8 @@ class CalendarController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create($venue_id)
+    public function create()
     {
-        dd($venue_id);
         $venue = Venue::all();
         return view('calendars.addevent')->with('venue', $venue);
     }
@@ -62,29 +61,26 @@ class CalendarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$venue_id)
+    public function store(Request $request)
     {
-        dd($venue_id);
-        // $this->validate($request, [
-        //     'title' => 'required',
-        //     'color' => 'required',
-        //     'start_date' => 'required',
-        //     'end_date' => 'required',
+        $this->validate($request, [
+            'title' => 'required',
+            'color' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
 
-        // ]);
+        ]);
+        $venueid = $request->session()->get('venueid');  
+        $calendar = new Calendar;
+        $calendar->venue_id = $venueid;
+        $calendar->user_id = auth()->user()->id;
+        $calendar->title = $request->input('title');
+        $calendar->color = $request->input('color');
+        $calendar->start_date = $request->input('start_date');
+        $calendar->end_date = $request->input('end_date');
+        $calendar->save();
 
-        // $calendar = new Calendar;
-        // $calendar->venue_id = $venue_id;
-        // dd($venue_id);
-        // $calendar->user_id = auth()->user()->id;
-        // $calendar->title = $request->input('title');
-        // $calendar->color = $request->input('color');
-        // $calendar->start_date = $request->input('start_date');
-        // $calendar->end_date = $request->input('end_date');
-        // $calendar->save();
-        //$calendar->create($request->all());
-
-        //return redirect('events')->with('success', 'Event Created');
+        return redirect('events')->with('success', 'Event Created');
     }
 
     /**

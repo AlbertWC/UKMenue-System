@@ -20,7 +20,7 @@
     <div class="container">
             <div class="row">
                 @if (!Auth::guest())
-                    <a href="/events/create" class="btn btn-success">Add Event</a>
+                    <a href="/venues" class="btn btn-success">Add Event</a>
                     <a href="/events/display" class="btn btn-primary">Edit/Delete my Events</a>
 
                 @endif

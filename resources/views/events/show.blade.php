@@ -9,7 +9,7 @@
     <small>Event Organizer: {{$event->eventorganizer}}</small>
     <hr>
     <a href="/events/{{$event->id}}/edit" class="btn btn-info">Edit</a>
-
+    
 
     {!!Form::open(['action' => ['EventController@destroy', $event->id], 'method' =>'POST', 'class' => 'pull-right'])!!}
         {{Form::hidden('_method', 'DELETE')}}

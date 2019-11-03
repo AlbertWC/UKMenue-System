@@ -67,10 +67,12 @@ class VenueController extends Controller
      * @param  int  $venue_id
      * @return \Illuminate\Http\Response
      */
-    public function show($venue_id)
+    public function show($venue_id, Request $request)
     {
         $venue = Venue::find($venue_id);
-        return view('venues.show')->with('venue', $venue);
+        $venueid = $request->session()->put('venueid', $venue_id);
+        // print_r($request->session()->get('venueid'));
+        return view('venues.show')->with('venue', $venue)->with('venueid',$request->session()->get('venueid'));
     }
 
     /**

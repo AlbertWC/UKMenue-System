@@ -113,6 +113,7 @@ class EventController extends Controller
         ]);
 
         $event = Event::find($id);
+        
         // $event->eventname = $request->input('eventname');
         // $event->eventdescription = $request->input('eventdescription');
         // $event->eventorganizer = $request->input('eventorganizer');
