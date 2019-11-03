@@ -14,6 +14,10 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $event = Event::all();
@@ -44,19 +48,22 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
-            'applicant' => 'required',
-            'venue'=> 'required'
+            'eventname' => 'required',
+            'eventdescription' => 'required',
+            'eventorganizer' => 'required',
+            'venue_id'=> 'required'
 
         ]);
         //test
         $event = new Event();
-        $event->eventname = $request->input('title');
-        $event->eventdescription = $request->input('body');
-        $event->eventorganizer = $request->input('applicant');
-        $event->venue_id = $request->input('venue');
-        $event->save();
+        // $event->eventname = $request->input('title');
+        // $event->eventdescription = $request->input('body');
+        // $event->eventorganizer = $request->input('applicant');
+        // $event->venue_id = $request->input('venue');
+        // $event->save();
+
+        $event->create($request->all());
+    
 
         return redirect('/events')->with('success', 'Event Created');
         
@@ -98,22 +105,21 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
-            'applicant' => 'required',
-            'venue'=> 'required'
+            'eventname' => 'required',
+            'eventdescription' => 'required',
+            'eventorganizer' => 'required',
+            'venue_id'=> 'required'
 
         ]);
 
         $event = Event::find($id);
-        return $id;
-        // $event->eventname = $request->input('title');
-        // $event->eventdescription = $request->input('body');
-        // $event->eventorganizer = $request->input('applicant');
-        // $event->venue_id = $request->input('venue');
+        // $event->eventname = $request->input('eventname');
+        // $event->eventdescription = $request->input('eventdescription');
+        // $event->eventorganizer = $request->input('eventorganizer');
+        // $event->venue_id = $request->input('venue_id');
         // $event->save();
-
-        // return redirect('/events')->with('success', 'Event Updated');
+        $event->update($request->all());
+        return redirect('/events')->with('success', 'Event Updated');
     }
 
     /**

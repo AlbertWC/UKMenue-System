@@ -9,6 +9,9 @@
     
 </head>
 <body>
+    @include('inc.navbar')
+    
+    @include('inc.message')
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -24,16 +27,31 @@
                     
                     
                     {{ csrf_field() }}
+                    
+                    {{-- <div class="form-group">
+                        <label for="venue_id">Select Venue</label>
+                        <select name="venue_id" id="venue_id">
+                            <option value="null">Select Venue</option>
+                            @foreach ($venue as $venuelist)
+                                <option value="{{$venuelist->venue_id}}">{{$venuelist->venue_name}}</option>
+                            @endforeach
+                        </select>
+                        <br>
+                    </div> --}}
+
                     <label for="">Enter Event Name</label>
                     <input type="text" class="form-control" name="title" placeholder="Enter the Event Name" /> <br>
+                    
                     <label for="">Enter Event Colour</label>
                     <input type="color" class="form-control" name="color" placeholder="Enter the Event color" /> <br>
-                    <label for="">Enter Event Starting Date</label>
-                    <input type="date" class="form-control" name="start_date" placeholder="Enter the Starting Date" /> <br>
-                    <label for="">Enter Event Ending Date</label>
-                    <input type="date" class="form-control" name="end_date" placeholder="Enter the Ending Date" /> <br>
                     
-                    <input type="submit" name="submit" class="btn btn-primary" value="Apply Event"/>>
+                    <label for="">Enter Event Starting Date</label>
+                    <input type="datetime-local" class="form-control" name="start_date" placeholder="Enter the Starting Date" /> <br>
+                    
+                    <label for="">Enter Event Ending Date</label>
+                    <input type="datetime-local" class="form-control" name="end_date" placeholder="Enter the Ending Date" /> <br>
+                    
+                    <input type="submit" name="submit" class="btn btn-primary" value="Apply Event"/>
                     </form>
                     </div>
                 </div>

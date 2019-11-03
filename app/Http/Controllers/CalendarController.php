@@ -4,8 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Calendar;
+use App\Venue;
+use App\User;
+
 class CalendarController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['index','show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +29,7 @@ class CalendarController extends Controller
             $enddate = $row->end_date." 24:00:00";
             $calendar[] = \Calendar::event(
                 $row->title,
-                true,
+                false,
                 new \DateTime($row->start_date),
                 new \DateTime($row->end_date),
                 $row->id,
@@ -31,7 +39,7 @@ class CalendarController extends Controller
             );
         }
         $calendar = \Calendar::addEvents($calendar);
-        return view('events.testing', compact('calendars', 'calendar'));
+        return view('calendars.calendars', compact('calendars', 'calendar'));
         
     }
 
@@ -40,9 +48,12 @@ class CalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+    public function create($venue_id)
     {
-        //
+        dd($venue_id);
+        $venue = Venue::all();
+        return view('calendars.addevent')->with('venue', $venue);
     }
 
     /**
@@ -51,9 +62,29 @@ class CalendarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$venue_id)
     {
-        //
+        dd($venue_id);
+        // $this->validate($request, [
+        //     'title' => 'required',
+        //     'color' => 'required',
+        //     'start_date' => 'required',
+        //     'end_date' => 'required',
+
+        // ]);
+
+        // $calendar = new Calendar;
+        // $calendar->venue_id = $venue_id;
+        // dd($venue_id);
+        // $calendar->user_id = auth()->user()->id;
+        // $calendar->title = $request->input('title');
+        // $calendar->color = $request->input('color');
+        // $calendar->start_date = $request->input('start_date');
+        // $calendar->end_date = $request->input('end_date');
+        // $calendar->save();
+        //$calendar->create($request->all());
+
+        //return redirect('events')->with('success', 'Event Created');
     }
 
     /**
@@ -62,9 +93,11 @@ class CalendarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $calendar = Calendar::get();
+        //dd($calendar);
+        return view('calendars.display')->with('calendar', $calendar);
     }
 
     /**
@@ -75,7 +108,8 @@ class CalendarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $calendar = Calendar::find($id);
+        return view('calendars.editevent', compact('calendar', 'id'));
     }
 
     /**
@@ -87,7 +121,17 @@ class CalendarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'venue_id' => 'required',
+            'title' => 'required',
+            'color' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+        $calendar = Calendar::find($id);
+
+        $calendar->update($request->all());
+        return redirect('events')->with('success', "Event Updated");
     }
 
     /**
@@ -98,6 +142,8 @@ class CalendarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $calendar = Calendar::find($id);
+        $calendar->delete();
+        return redirect('events')->with('success', "Event Deleted");
     }
 }

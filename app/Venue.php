@@ -10,4 +10,10 @@ class Venue extends Model
     protected $table = 'venues';
     //primary key
     public $primaryKey = 'venue_id';
+    
+    public function calendar()
+    {
+        return $this->hasMany('App\Calendar', 'venue_id', 'venue_id');
+    }
+
 }

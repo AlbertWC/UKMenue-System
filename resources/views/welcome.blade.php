@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>testing</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -91,6 +91,8 @@
                 <div class="links">
                     <a href="/venues">Venue</a>
                     <a href="/events">Event</a>
+                    <a href="/calendars">Calendar</a>
+                    <a href="/feedbacks">Feedback</a>
                 </div>
             </div>
         </div>
