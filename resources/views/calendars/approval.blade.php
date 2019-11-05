@@ -11,44 +11,44 @@
 <body>
     @include('inc.navbar')
     @include('inc.message')
-        <div class="container">
-                <div class="header">
-                    <h1>Approval Events</h1>
-                </div>
+    <div class="container">
+            <div class="header">
+                <h1>Approval Events</h1>
+            </div>
         <div class="jumbotron">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead class="head">
-                        <h3>Lists</h3>
-                        <tr class="warning">
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    @foreach ($calendar as $calendarlist)
-                    <tbody>
-                        @if ($calendarlist->approval == '0')
-                        <tr>
-                            <td>{{$calendarlist->id}}</td>
-                            <td>{{$calendarlist->title}}</td>
-                            <td>{{$calendarlist->start_date}}</td>
-                            <td>{{$calendarlist->end_date}}</td>
-                            <td>
-                                {{Form::open(['action' => ['ApprovalController@updateevent', $calendarlist->id], 'method'=> 'POST'])}}
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="head">
+                    <h3>Lists</h3>
+                    <tr class="warning">
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach ($calendar as $calendarlist)
+                <tbody>
+                    @if ($calendarlist->approval == '0')
+                    <tr>
+                        <td>{{$calendarlist->id}}</td>
+                        <td>{{$calendarlist->title}}</td>
+                        <td>{{$calendarlist->start_date}}</td>
+                        <td>{{$calendarlist->end_date}}</td>
+                        <td>
+                            {{Form::open(['action' => ['ApprovalController@updateevent', $calendarlist->id], 'method'=> 'POST'])}}
                                 <input type="hidden" name="id" id="{{$calendarlist->id}}" value= {{$calendarlist->id}}>    
                                 <button type="submit" class="btn btn-primary">Approve</button>
-                                {{Form::close()}}
-                            </td>
-                            </tr>
-                            
-                        @endif
-                        
-                    </tbody>
-                    @endforeach
-                </table>
-            </div>
+                            {{Form::close()}}
+                        </td>
+                        </tr>
+                                       
+                    @endif
+                </tbody>
+                @endforeach
+            </table>
         </div>
+    </div>       
+        
 </body>
 </html>

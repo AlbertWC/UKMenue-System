@@ -21,8 +21,9 @@ class CalendarController extends Controller
      */
     public function index(Request $request)
     {
+        //$venueid = $request->session()->get('venueid')
         //$calendars = Calendar::get('venue_id','=',$request->session()->get('venueid'));
-        $calendars = Calendar::all();
+        $calendars = Calendar::where(['approval' => '1' , 'venue_id' => $request->session()->get('venueid')])->get();
         $calendar = [];
 
         foreach($calendars as $row)
@@ -40,6 +41,8 @@ class CalendarController extends Controller
             );
         }
         //$calendar = Calendar::get('venue_id' , '=' , $request->session()->get('venueid'));
+
+        
         $calendar = \Calendar::addEvents($calendar);
        
         return view('calendars.calendars', compact('calendars', 'calendar'));

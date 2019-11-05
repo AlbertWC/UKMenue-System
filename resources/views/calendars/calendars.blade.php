@@ -22,7 +22,7 @@
                 @if (!Auth::guest())
                     <a href="/venues" class="btn btn-success">Add Event</a>
                     <a href="/events/display" class="btn btn-primary">Edit/Delete my Events</a>
-                    <a href="/events/adminverify" class="btn btn-primary"> approval</a>
+                    
                 @endif
                     
                 </div>
