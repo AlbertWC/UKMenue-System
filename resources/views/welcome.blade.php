@@ -91,7 +91,6 @@
                 <div class="links">
                     <a href="/venues">Venue</a>
                     <a href="/events">Event</a>
-                    <a href="/calendars">Calendar</a>
                     <a href="/feedbacks">Feedback</a>
                 </div>
             </div>

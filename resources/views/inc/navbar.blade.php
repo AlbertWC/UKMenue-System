@@ -17,9 +17,6 @@
             <li class="nav-item">
               <a class="nav-link" href="/events">Event</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/calendars">Calendars</a>
-            </li>
   
               
               <li class="nav-item dropdown">

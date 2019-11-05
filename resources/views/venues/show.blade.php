@@ -7,11 +7,18 @@
     <br>
     <h6>Description: {!!$venue->venue_description!!}</h6>
     <hr>
-    <a href="/venues/{{$venue->venue_id}}/edit" class="btn btn-info">Edit</a>
     <a href="/events/create" class="btn btn-info" type="hidden">Book</a>
-    <input type="hidden" value="{{$venue->venue_id}}" name="data-value">
-    {!!Form::open(['action' => ['VenueController@destroy', $venue->venue_id], 'method' =>'POST', 'class' => 'pull-right'])!!}
-        {{Form::hidden('_method', 'DELETE')}}
-        {{Form::submit('Delete', ['class'=>'btn btn-danger'])}}
-    {!!Form::close()!!}
+    <br>
+    @if (!Auth::guest())
+        @if (Auth::user()->id == $venue->user_id)
+            <a href="/venues/{{$venue->venue_id}}/edit" class="btn btn-info">Edit</a>
+            <br>
+            {!!Form::open(['action' => ['VenueController@destroy', $venue->venue_id], 'method' =>'POST', 'class' => 'pull-right'])!!}
+                {{Form::hidden('_method', 'DELETE')}}
+                {{Form::submit('Delete', ['class'=>'btn btn-danger'])}}
+            {!!Form::close()!!}
+        @endif
+        
+    @endif
+    
 @endsection

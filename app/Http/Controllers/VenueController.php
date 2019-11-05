@@ -56,6 +56,7 @@ class VenueController extends Controller
         $venue = new Venue();
         $venue->venue_name = $request->input('title');
         $venue->venue_description = $request->input('body');
+        $venue->user_id = auth()->user()->id;
         $venue->save();
 
         return redirect('/venues')->with('success', 'Venue created');

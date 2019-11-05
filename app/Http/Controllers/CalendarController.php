@@ -19,8 +19,9 @@ class CalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        //$calendars = Calendar::get('venue_id','=',$request->session()->get('venueid'));
         $calendars = Calendar::all();
         $calendar = [];
 
@@ -38,7 +39,9 @@ class CalendarController extends Controller
                 ]
             );
         }
+        //$calendar = Calendar::get('venue_id' , '=' , $request->session()->get('venueid'));
         $calendar = \Calendar::addEvents($calendar);
+       
         return view('calendars.calendars', compact('calendars', 'calendar'));
         
     }
@@ -115,10 +118,9 @@ class CalendarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $this->validate($request, [
-            'venue_id' => 'required',
             'title' => 'required',
             'color' => 'required',
             'start_date' => 'required',
@@ -142,4 +144,5 @@ class CalendarController extends Controller
         $calendar->delete();
         return redirect('events')->with('success', "Event Deleted");
     }
+
 }

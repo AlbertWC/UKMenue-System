@@ -21,3 +21,5 @@ Route::resource('venues', 'VenueController');
 // Route::resource('events', 'EventController');
 Route::resource('events', 'CalendarController');
 Route::resource('feedbacks', 'FeedbacksController');
+Route::get('/calendars/approval', 'ApprovalController@approval');
+Route::post('/calendars/approval', 'ApprovalController@updateevent');

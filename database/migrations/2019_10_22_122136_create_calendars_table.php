@@ -17,6 +17,7 @@ class CreateCalendarsTable extends Migration
             $table->bigIncrements('id');
             $table->tinyInteger('venue_id');
             $table->tinyInteger('user_id');
+            $table->boolean('approval')->default(false);
             $table->string('title');
             $table->string('color');
             $table->date('start_date');
