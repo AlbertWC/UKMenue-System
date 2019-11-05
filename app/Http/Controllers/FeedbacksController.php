@@ -8,6 +8,10 @@ use DB;
 
 class FeedbacksController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin', ['except'=>'create','edit','update','destroy']);
+    }
     /**
      * Display a listing of the resource.
      *
