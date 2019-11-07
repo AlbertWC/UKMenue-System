@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
     public function feedback()
     {
-       return $this->hasMany('App\Feedback', 'id', 'feedback_id');
+        return $this->hasOne('App\Feedback', 'user_id', 'id');
     }
 
 }

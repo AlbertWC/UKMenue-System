@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Feedback;
 use DB;
@@ -10,7 +10,8 @@ class FeedbacksController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin', ['except'=>'create','edit','update','destroy']);
+       $this->middleware('guest:web', ['only' => 'admindisplay']);
+       $this->middleware('guest:admin', ['except' => ['admindisplay','show']]);
     }
     /**
      * Display a listing of the resource.
@@ -19,8 +20,12 @@ class FeedbacksController extends Controller
      */
     public function index()
     {
-        $feedback =  Feedback::orderBy('created_at', 'desc')->paginate(10);
+        $feedback = Feedback::where(['user_id' => auth()->user()->id])->orderBy('created_at','desc')->paginate(5);
+        //$feedback =  Feedback::orderBy('created_at', 'desc')->paginate(10);
         return view('feedbacks.index')->with('feedback', $feedback);
+
+
+      
     }
 
     /**
@@ -56,6 +61,7 @@ class FeedbacksController extends Controller
         $feedback->email = $request->input('email');
         $feedback->contact = $request->input('contact');
         $feedback->comment = $request->input('comment');
+        $feedback->user_id = auth()->user()->id;
         $feedback->save();
 
         return redirect('/feedbacks')->with('success', 'Feedback Created');
@@ -125,5 +131,11 @@ class FeedbacksController extends Controller
         $feedback = Feedback::find($id);
         $feedback->delete();
         return redirect('/feedbacks')->with('success', 'Feedback Deleted');
+    }
+
+    public function admindisplay()
+    {
+        $feedback =  Feedback::orderBy('created_at', 'desc')->paginate(10);
+        return view('feedbacks.index')->with('feedback', $feedback);
     }
 }

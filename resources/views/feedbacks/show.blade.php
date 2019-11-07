@@ -11,10 +11,14 @@
             </div>
     <small>Written on {{$feedback->created_at}}</small>
     <hr>
+    @if (!Auth::guard('web'))
+
         <a href="/feedbacks/{{$feedback->id}}/edit" class="btn btn-primary">Edit</a>
 
         {!!Form::open(['action' => ['FeedbacksController@destroy', $feedback->id], 'method' => 'FEEDBACK', 'class' => 'pull-right'])!!}
             {{Form::hidden('_method', 'DELETE')}}
             {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
         {!!Form::close()!!}
+    @endif
+        
 @endsection

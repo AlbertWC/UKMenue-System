@@ -46,10 +46,10 @@
                     <input type="color" class="form-control" name="color" placeholder="Enter the Event color" /> <br>
                     
                     <label for="">Enter Event Starting Date</label>
-                    <input type="date" class="form-control" name="start_date" placeholder="Enter the Starting Date" /> <br>
+                    <input type="datetime-local" class="form-control" name="start_date" placeholder="Enter the Starting Date" /> <br>
                     
                     <label for="">Enter Event Ending Date</label>
-                    <input type="date" class="form-control" name="end_date" placeholder="Enter the Ending Date" /> <br>
+                    <input type="datetime-local" class="form-control" name="end_date" placeholder="Enter the Ending Date" /> <br>
                     
                     <input type="submit" name="submit" class="btn btn-primary" value="Apply Event"/>
                     </form>

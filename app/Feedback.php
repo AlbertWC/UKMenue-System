@@ -10,5 +10,7 @@ class Feedback extends Model
 
     public $primaryKey = 'id';
 
+    protected $fillable =['firstname','lastname','email','contact','comment'];
     
+
 }
