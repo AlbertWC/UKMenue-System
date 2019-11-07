@@ -10,7 +10,7 @@
         {{-- Admin navbar --}}
         @if (Auth::guard('admin')->check())
           <li class="nav-item">
-            <a class="nav-link" href="/venues">Venues</a>
+            <a class="nav-link" href="/adminvenues">Venues</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/adminfeedback">Feedback</a>

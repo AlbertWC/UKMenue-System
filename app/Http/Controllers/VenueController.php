@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Venue;
 Use DB;
+use App\Calendar;
 class VenueController extends Controller
 {
     /**
@@ -15,7 +16,8 @@ class VenueController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['except' => ['index','show']]);
+        $this->middleware('auth:web', ['only' => ['index','show']]);
+        $this->middleware('auth:admin',['except' =>['index','show']]);
     }
 
     public function index()
@@ -72,8 +74,33 @@ class VenueController extends Controller
     {
         $venue = Venue::find($venue_id);
         $venueid = $request->session()->put('venueid', $venue_id);
+        //test calendar
+        $calendars = Calendar::where(['approval' => '1' , 'venue_id' => $venue_id])->get();
+        $calendar = [];
+
+        foreach($calendars as $row)
+        {
+            //$enddate = $row->end_date." 20:00:00";
+            $calendar[] = \Calendar::event(
+                $row->title,
+                false,
+                new \DateTime($row->start_date),
+                new \DateTime($row->end_date),
+                $row->id,
+                [
+                    'color' => $row->color,
+                ]
+            );
+        }
+        //$calendar = Calendar::get('venue_id' , '=' , $request->session()->get('venueid'));
+
+        
+        $calendar = \Calendar::addEvents($calendar);
+        // return view('calendars.calendars', compact('calendars', 'calendar'));
+        
+
         // print_r($request->session()->get('venueid'));
-        return view('venues.show')->with('venue', $venue)->with('venueid',$request->session()->get('venueid'));
+        return view('venues.show',compact('calendars','calendar'))->with('venue', $venue);
     }
 
     /**
@@ -122,5 +149,10 @@ class VenueController extends Controller
         $venue = Venue::find($venue_id);
         $venue->delete();
         return redirect('/venues')->with('danger', 'Venue Removed');
+    }
+    public function adminindex()
+    {
+        $venue = Venue::orderBy('created_at' , 'desc')->paginate(4);
+        return view('venues.index')->with('venue', $venue);
     }
 }

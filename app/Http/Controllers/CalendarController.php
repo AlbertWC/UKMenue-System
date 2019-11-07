@@ -12,7 +12,8 @@ class CalendarController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except'=>['index','show']]);
+        $this->middleware('auth:web', ['except'=>['index','show','displaycalendar']]);
+        $this->middleware('auth:admin',['only' => ['show']]);
     }
     /**
      * Display a listing of the resource.
@@ -146,6 +147,35 @@ class CalendarController extends Controller
         $calendar = Calendar::find($id);
         $calendar->delete();
         return redirect('events')->with('success', "Event Deleted");
+    }
+    public function displaycalendar(Request $request)
+    {
+        //$venueid = $request->session()->get('venueid')
+        //$calendars = Calendar::get('venue_id','=',$request->session()->get('venueid'));
+        $calendars = Calendar::where(['approval' => '1' , 'venue_id' => $request->session()->get('venueid')])->get();
+        $calendar = [];
+
+        foreach($calendars as $row)
+        {
+            //$enddate = $row->end_date." 20:00:00";
+            $calendar[] = \Calendar::event(
+                $row->title,
+                false,
+                new \DateTime($row->start_date),
+                new \DateTime($row->end_date),
+                $row->id,
+                [
+                    'color' => $row->color,
+                ]
+            );
+        }
+        //$calendar = Calendar::get('venue_id' , '=' , $request->session()->get('venueid'));
+
+        
+        $calendar = \Calendar::addEvents($calendar);
+       
+        return view('calendars.calendars', compact('calendars', 'calendar'));
+        
     }
 
 }

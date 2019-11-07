@@ -6,11 +6,11 @@
     <h3>{{$venue->venue_name}}</h3>
     <br>
     <h6>Description: {!!$venue->venue_description!!}</h6>
-    <hr>
     <a href="/events/create" class="btn btn-info" type="hidden">Book</a>
     <br>
+    {{-- <a href="/calendars/displayevents" class="btn btn-info">View Available Date</a> --}}
     @if (!Auth::guest())
-        @if (Auth::user()->id == $venue->user_id)
+        @if (Auth::guard('admin')->check())
             <a href="/venues/{{$venue->venue_id}}/edit" class="btn btn-info">Edit</a>
             <br>
             {!!Form::open(['action' => ['VenueController@destroy', $venue->venue_id], 'method' =>'POST', 'class' => 'pull-right'])!!}
@@ -20,5 +20,19 @@
         @endif
         
     @endif
+
+    
     
 @endsection
+
+@section('calendar')
+    <div class="jumbotron" width="200px" height="600px" id="calendarid">
+        {!! $calendar->calendar() !!}
+    </div>
+@endsection
+
+@section('script')
+    {!! $calendar->script() !!}
+    
+@endsection
+
