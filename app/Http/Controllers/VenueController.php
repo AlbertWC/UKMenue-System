@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Venue;
 Use DB;
+use Illuminate\Support\Facades\Auth;
 use App\Calendar;
 class VenueController extends Controller
 {
@@ -16,8 +17,8 @@ class VenueController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:web', ['only' => ['index','show']]);
-        $this->middleware('auth:admin',['except' =>['index','show']]);
+        $this->middleware('auth:web',['only'=> 'index']);
+        $this->middleware('auth:admin',['only' => ['show','adminindex','store','update','create','destroy','edit']]);
     }
 
     public function index()
@@ -60,8 +61,7 @@ class VenueController extends Controller
         $venue->venue_description = $request->input('body');
         $venue->user_id = auth()->user()->id;
         $venue->save();
-
-        return redirect('/venues')->with('success', 'Venue created');
+        return redirect('/adminvenues')->with('success', 'Venue created');
     }
 
     /**
@@ -74,6 +74,7 @@ class VenueController extends Controller
     {
         $venue = Venue::find($venue_id);
         $venueid = $request->session()->put('venueid', $venue_id);
+        
         //test calendar
         $calendars = Calendar::where(['approval' => '1' , 'venue_id' => $venue_id])->get();
         $calendar = [];
@@ -135,7 +136,7 @@ class VenueController extends Controller
         $venue->venue_description = $request->input('body');
         $venue->save();
 
-        return redirect('/venues')->with('success', 'Venue updated');
+        return redirect('/admin/venues')->with('success', 'Venue updated');
     }
 
     /**
@@ -148,11 +149,44 @@ class VenueController extends Controller
     {
         $venue = Venue::find($venue_id);
         $venue->delete();
-        return redirect('/venues')->with('danger', 'Venue Removed');
+        return redirect('/admin/venues')->with('danger', 'Venue Removed');
     }
     public function adminindex()
     {
         $venue = Venue::orderBy('created_at' , 'desc')->paginate(4);
         return view('venues.index')->with('venue', $venue);
+    }
+    public function adminshow($venue_id, Request $request)
+    {
+        $venue = Venue::find($venue_id);
+        $venueid = $request->session()->put('venueid', $venue_id);
+        
+        //test calendar
+        $calendars = Calendar::where(['approval' => '1' , 'venue_id' => $venue_id])->get();
+        $calendar = [];
+
+        foreach($calendars as $row)
+        {
+            //$enddate = $row->end_date." 20:00:00";
+            $calendar[] = \Calendar::event(
+                $row->title,
+                false,
+                new \DateTime($row->start_date),
+                new \DateTime($row->end_date),
+                $row->id,
+                [
+                    'color' => $row->color,
+                ]
+            );
+        }
+        //$calendar = Calendar::get('venue_id' , '=' , $request->session()->get('venueid'));
+
+        
+        $calendar = \Calendar::addEvents($calendar);
+        // return view('calendars.calendars', compact('calendars', 'calendar'));
+        
+
+        // print_r($request->session()->get('venueid'));
+        return view('venues.show',compact('calendars','calendar'))->with('venue', $venue);
     }
 }

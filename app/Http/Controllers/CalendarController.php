@@ -12,8 +12,8 @@ class CalendarController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:web', ['except'=>['index','show','displaycalendar']]);
-        $this->middleware('auth:admin',['only' => ['show']]);
+        $this->middleware('auth:web', ['only'=>['index','show','edit','update','destory','create','store']]);
+        $this->middleware('auth:admin',['only' => 'displaycalendar']);
     }
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class CalendarController extends Controller
 
         foreach($calendars as $row)
         {
-            $enddate = $row->end_date." 24:00:00";
+            //$enddate = $row->end_date." 24:00:00";
             $calendar[] = \Calendar::event(
                 $row->title,
                 false,

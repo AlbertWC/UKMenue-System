@@ -20,8 +20,8 @@ class CreateCalendarsTable extends Migration
             $table->boolean('approval')->default(false);
             $table->string('title');
             $table->string('color');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->timestamps();
         });
     }

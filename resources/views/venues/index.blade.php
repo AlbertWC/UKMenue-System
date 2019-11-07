@@ -7,7 +7,13 @@
     @if(count($venue) > 0)
         @foreach ($venue as $venuelist)
             <div class="well">
-            <h3><a href="/venues/{{$venuelist->venue_id}}">{{$venuelist->venue_name}}</a></h3>
+                @if (Auth::guard('web')->check())
+                <h3><a href="/venues/{{$venuelist->venue_id}}">{{$venuelist->venue_name}}</a></h3>
+                @endif
+                @if (Auth::guard('admin')->check())
+                <h3><a href="/venues/{{$venuelist->venue_id}}">{{$venuelist->venue_name}}</a></h3>                    
+                @endif
+            
             <small>Description : {{$venuelist->venue_description}}</small>
             </div>
         @endforeach
