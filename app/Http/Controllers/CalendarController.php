@@ -24,7 +24,7 @@ class CalendarController extends Controller
     {
         //$venueid = $request->session()->get('venueid')
         //$calendars = Calendar::get('venue_id','=',$request->session()->get('venueid'));
-        $calendars = Calendar::where(['approval' => '1' , 'venue_id' => $request->session()->get('venueid')])->get();
+        $calendars = Calendar::where(['approval' => '1' , 'user_id' => auth()->user()->id])->get();
         $calendar = [];
 
         foreach($calendars as $row)

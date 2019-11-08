@@ -151,11 +151,16 @@ class VenueController extends Controller
         $venue->delete();
         return redirect('/admin/venues')->with('danger', 'Venue Removed');
     }
+
+
+    //Admin session venues list
     public function adminindex()
     {
         $venue = Venue::orderBy('created_at' , 'desc')->paginate(4);
         return view('venues.index')->with('venue', $venue);
     }
+
+    //Admin session view particular venue 
     public function adminshow($venue_id, Request $request)
     {
         $venue = Venue::find($venue_id);
@@ -187,6 +192,6 @@ class VenueController extends Controller
         
 
         // print_r($request->session()->get('venueid'));
-        return view('venues.show',compact('calendars','calendar'))->with('venue', $venue);
+        return view('venues.adminshow',compact('calendars','calendar'))->with('venue', $venue);
     }
 }
