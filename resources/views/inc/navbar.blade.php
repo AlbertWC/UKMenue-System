@@ -17,9 +17,6 @@
           <li class="nav-item">
             <a class="nav-link" href="/admin/feedback">Feedback</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/calendars/displayevents">Event</a>
-          </li>
         @endif
 
         {{-- User navbar --}}
@@ -28,7 +25,7 @@
             <a class="nav-link" href="/venues">View Venue</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/events">Book Venue</a>
+            <a class="nav-link" href="/events">My Event List</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/feedbacks">Insert Feedback</a>
@@ -36,7 +33,7 @@
         @endif
 
           {{-- temporarily logout --}}
-          
+            <li class="nav-item">
               <a class="nav-item" href="{{ route('logout') }}"
                   onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
@@ -46,6 +43,7 @@
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf
               </form>
+            </li>
 
         </ul>
         <ul class="navbar-nav ml-auto">

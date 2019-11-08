@@ -122,8 +122,9 @@ class CalendarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request ,$id)
     {
+
         $this->validate($request, [
             'title' => 'required',
             'color' => 'required',
@@ -131,8 +132,12 @@ class CalendarController extends Controller
             'end_date' => 'required',
         ]);
         $calendar = Calendar::find($id);
+        $calendar->title = $request->input('title');
+        $calendar->color = $request->input('color');
+        $calendar->start_date = $request->input('start_date');
+        $calendar->end_date = $request->input('end_date');
 
-        $calendar->update($request->all());
+        $calendar->save();
         return redirect('events')->with('success', "Event Updated");
     }
 

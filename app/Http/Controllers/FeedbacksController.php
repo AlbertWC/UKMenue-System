@@ -11,7 +11,7 @@ class FeedbacksController extends Controller
     public function __construct()
     {
        $this->middleware('guest:web', ['only' => 'admindisplay']);
-       $this->middleware('guest:admin', ['except' => ['admindisplay','show']]);
+       $this->middleware('guest:admin', ['except' => 'admindisplay']);
     }
     /**
      * Display a listing of the resource.

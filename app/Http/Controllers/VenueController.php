@@ -161,7 +161,7 @@ class VenueController extends Controller
     }
 
     //Admin session view particular venue 
-    public function adminshow($venue_id, Request $request)
+    public function adminshow( Request $request)
     {
         $venue = Venue::find($venue_id);
         $venueid = $request->session()->put('venueid', $venue_id);
