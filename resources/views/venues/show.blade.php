@@ -11,7 +11,6 @@
     @endif
     <br>
     {{-- <a href="/calendars/displayevents" class="btn btn-info">View Available Date</a> --}}
-    @if (!Auth::guest())
         @if (Auth::guard('admin')->check())
             <a href="/venues/{{$venue->venue_id}}/edit" class="btn btn-info">Edit</a>
             <br>
@@ -20,11 +19,7 @@
                 {{Form::submit('Delete', ['class'=>'btn btn-danger'])}}
             {!!Form::close()!!}
         @endif
-        
-    @endif
 
-    
-    
 @endsection
 
 @section('calendar')

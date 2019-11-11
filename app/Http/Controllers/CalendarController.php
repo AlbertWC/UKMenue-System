@@ -58,7 +58,7 @@ class CalendarController extends Controller
 
     public function create()
     {
-        $venue = Venue::all();
+        $venue = Venue::all(); 
         return view('calendars.addevent')->with('venue', $venue);
     }
 
@@ -98,7 +98,8 @@ class CalendarController extends Controller
      */
     public function show()
     {
-        $calendar = Calendar::get();
+        $userid = auth()->user()->id;
+        $calendar = Calendar::where(['user_id' => $userid])->get();
         //dd($calendar);
         return view('calendars.display')->with('calendar', $calendar);
     }

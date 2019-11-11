@@ -7,6 +7,8 @@ use App\Venue;
 Use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Calendar;
+use Illuminate\Support\Facades\Session;
+
 class VenueController extends Controller
 {
     /**
@@ -18,13 +20,13 @@ class VenueController extends Controller
     public function __construct()
     {
         $this->middleware('auth:web',['only'=> 'index']);
-        $this->middleware('auth:admin',['only' => ['show','adminindex','store','update','create','destroy','edit']]);
+        $this->middleware('auth:admin',['only' => ['adminindex','store','update','create','destroy','edit']]);
     }
 
     public function index()
     {
-        $venue = Venue::all();
-        // display in order
+        $venue = Venue::get();
+        // // display in order
         // $venue = Venue::orderBy('venue_name', 'desc');
         // $venue = Venue::orderBy('created_at', 'desc')->paginate(10);
         $venue = Venue::orderBy('created_at' , 'desc')->paginate(4);
@@ -61,7 +63,7 @@ class VenueController extends Controller
         $venue->venue_description = $request->input('body');
         $venue->user_id = auth()->user()->id;
         $venue->save();
-        return redirect('/adminvenues')->with('success', 'Venue created');
+        return redirect('/admin/venues')->with('success', 'Venue created');
     }
 
     /**
@@ -161,7 +163,7 @@ class VenueController extends Controller
     }
 
     //Admin session view particular venue 
-    public function adminshow( Request $request)
+    public function adminshow($venue_id,Request $request)
     {
         $venue = Venue::find($venue_id);
         $venueid = $request->session()->put('venueid', $venue_id);

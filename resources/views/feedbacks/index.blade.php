@@ -8,8 +8,14 @@
     @if(count($feedback) > 0)
         @foreach($feedback as $feedbacks)
             <div class="well">
-                <h3><a href="/feedbacks/{{$feedbacks->id}}">{{$feedbacks->comment}}</a></h3>
-                <h5>{{$feedbacks->firstname}} {{$feedbacks->lastname}}</h5>
+                @if (Auth::guard('web')->check())
+                {{-- users --}}
+                    <h3>Comment: <a href="/feedbacks/{{$feedbacks->id}}">{{$feedbacks->comment}}</a></h3>
+                @else
+                {{-- admin --}}
+                    <h3>Comment: {{$feedbacks->comment}}</></h3>
+                @endif
+                <h5>By: {{$feedbacks->firstname}} {{$feedbacks->lastname}}</h5>
                 <small>Written on {{$feedbacks->created_at}}</small>
                 </div>
                 <hr>

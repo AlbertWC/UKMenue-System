@@ -17,7 +17,7 @@
                     You are logged in as <strong>Admin</strong> !
                 </div>
                 <div class="card-body">
-                    <a href="/adminfeedback" action={{action('FeedbacksController@admindisplay')}} class="btn btn-primary">View Feebacks</a>
+                    <a href="/admin/feedback" action={{action('FeedbacksController@admindisplay')}} class="btn btn-primary">View Feebacks</a>
                     <a href="/calendars/approval" action={{action('ApprovalController@approval')} class="btn btn-primary">Approval Events</a>
                 </div>
             </div>
