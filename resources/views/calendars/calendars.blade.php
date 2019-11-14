@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,8 +34,7 @@
                         <div class="panel-heading" style="background:#2e6da4; color:white;"> Full Calender Example</div>
     
                         <div class="panel-body">
-                            {!! $calendar->calendar() !!}
-                            {!! $calendar->script() !!}
+                            @include('name')
                         </div>
                     </div>
                 </div>
@@ -43,4 +42,29 @@
         </div>
     </div>
 </body>
-</html>
+</html> --}}
+
+@extends('layouts.app')
+@section('content')
+    <h2>My Events list</h2>
+    <div class="row">
+            @if (!Auth::guest())
+                <a href="/venues" class="btn btn-success">Add Event</a>
+                <a href="/events/display" class="btn btn-primary">Edit/Delete my Events</a>
+                
+            @endif
+                
+            </div>
+@endsection
+@section('calendar')
+    <div class="card" width="200px" height="600px" id="displaycalendar">
+        <div class="card-body">
+        {!! $calendar->calendar() !!}
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    {!! $calendar->script() !!}
+    
+@endsection

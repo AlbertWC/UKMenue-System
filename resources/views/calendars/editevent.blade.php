@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,14 @@
 <body>
     @include('inc.navbar')
     @include('inc.message')
-    <form action={{action('CalendarController@update', $id)}} method="POST">
+
+</body>
+</html> --}}
+
+@extends('layouts.app')
+
+@section('content')
+<form action={{action('CalendarController@update', $id)}} method="POST">
         {{ csrf_field() }}
     <div class="container"> 
         <div class="jumbotron" style="margin-top: 5%">
@@ -40,5 +47,4 @@
         </div>
     </div>
     </form>
-</body>
-</html>
+@endsection

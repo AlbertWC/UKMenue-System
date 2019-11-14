@@ -7,6 +7,7 @@ use App\Venue;
 Use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Calendar;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 
 class VenueController extends Controller
@@ -53,8 +54,31 @@ class VenueController extends Controller
     {
         $this->validate($request,[
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'venue_image' => 'image|nullable|max:1999'
         ]);
+
+        if($request->hasFile('venue_image'))
+            {
+                // get file name with the extension
+               $fileNameWithExt = $request->file('venue_image')->getClientOriginalName(); 
+                
+               // get file name
+               $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+
+               // get the file extension
+               $extension = $request->file('venue_image')->getClientOriginalExtension();
+            
+                // file name to store
+                $fileNameToStore  = $filename.'_'.time().'_'.$extension;
+
+                //Upload image 
+                $path = $request->file('venue_image')->storeAs('public/venue_image',$fileNameToStore);
+            }
+        else
+        {
+            $fileNameToStore = 'noimage.jpg';
+        }
         
 
         //Create Venue
@@ -62,6 +86,7 @@ class VenueController extends Controller
         $venue->venue_name = $request->input('title');
         $venue->venue_description = $request->input('body');
         $venue->user_id = auth()->user()->id;
+        $venue->venue_image = $fileNameToStore;
         $venue->save();
         return redirect('/admin/venues')->with('success', 'Venue created');
     }
@@ -78,7 +103,8 @@ class VenueController extends Controller
         $venueid = $request->session()->put('venueid', $venue_id);
         
         //test calendar
-        $calendars = Calendar::where(['approval' => '1' , 'venue_id' => $venue_id])->get();
+        $calendars = Calendar::where(['approval' => '1','venue_id' =>  $venue_id])->get();
+        //dd($calendars);        
         $calendar = [];
 
         foreach($calendars as $row)
@@ -129,13 +155,32 @@ class VenueController extends Controller
     {
         $this->validate($request,[
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'venue_image' => 'image|nullable|max:1999'
         ]);
+        
+        if($request->hasFile('venue_image'))
+            {
+                // get file name with the extension
+               $fileNameWithExt = $request->file('venue_image')->getClientOriginalName(); 
+                
+               // get file name
+               $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
 
+               // get the file extension
+               $extension = $request->file('venue_image')->getClientOriginalExtension();
+            
+                // file name to store
+                $fileNameToStore  = $filename.'_'.time().'_'.$extension;
+
+                //Upload image 
+                $path = $request->file('venue_image')->storeAs('public/venue_image',$fileNameToStore);
+            }
         //Create Venue
         $venue = Venue::find($venue_id);
         $venue->venue_name = $request->input('title');
         $venue->venue_description = $request->input('body');
+        $venue->venue_image = $fileNameToStore;
         $venue->save();
 
         return redirect('/admin/venues')->with('success', 'Venue updated');
@@ -150,6 +195,10 @@ class VenueController extends Controller
     public function destroy($venue_id)
     {
         $venue = Venue::find($venue_id);
+        if($venue->venue_image != 'noimage.jpg')
+        {
+            Storage::delete('public/venue_image/'.$venue->venue_image);
+        }
         $venue->delete();
         return redirect('/admin/venues')->with('danger', 'Venue Removed');
     }

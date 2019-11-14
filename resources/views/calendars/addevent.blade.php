@@ -51,6 +51,16 @@
                     <label for="">Enter Event Ending Date</label>
                     <input type="datetime-local" class="form-control" name="end_date" placeholder="Enter the Ending Date" /> <br>
                     
+                    <div class="form-group">
+                        <label for="">Upload Event Image</label>
+                        {{Form::file('event_image')}}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="">Upload Your Event Approval Letter</label>
+                        {{Form::file('approval_letter')}}
+                    </div>
+
                     <input type="submit" name="submit" class="btn btn-primary" value="Apply Event"/>
                     </form>
                     </div>

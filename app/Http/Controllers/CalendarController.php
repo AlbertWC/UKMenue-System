@@ -75,8 +75,57 @@ class CalendarController extends Controller
             'color' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
+            'approval_letter' => 'required|nullable|max:1999',
+            'event_image' => 'required|nullable|max:1999'
+            
 
         ]);
+        //approval_letter
+        if($request->hasFile('approval_letter'))
+        {
+            // get file name with the extension
+            $approvalLetterWithExt = $request->file('approval_letter')->getClientOriginalName(); 
+            
+            // get file name
+            $approvalLetter = pathinfo($approvalLetterWithExt, PATHINFO_FILENAME);
+
+            // get the file extension
+            $approvalletterextension = $request->file('approval_letter')->getClientOriginalExtension();
+        
+            // file name to store
+            $approvalLetterNameToStore  = $approvalLetter.'_'.time().'_'.$approvalletterextension;
+
+            //Upload image 
+            $path = $request->file('approval_letter')->storeAs('public/approval_letter',$approvalLetterNameToStore);
+        }
+        else
+        {
+            $approvalLetterNameToStore = 'nodocument.jpg';
+        }
+
+        //event_image
+        if($request->hasFile('event_image'))
+        {
+            // get file name with the extension
+           $eventImageWithExt = $request->file('event_image')->getClientOriginalName(); 
+            
+           // get file name
+           $eventImage = pathinfo($eventImageWithExt, PATHINFO_FILENAME);
+
+           // get the file extension
+            $eventImageExtension = $request->file('event_image')->getClientOriginalExtension();
+        
+            // file name to store
+            $eventImageToStore  = $eventImage.'_'.time().'_'.$eventImageExtension;
+
+            //Upload image 
+            $path = $request->file('event_image')->storeAs('public/event_image',$eventImageToStore);
+        }
+        else
+        {
+            $eventImageToStore = 'noimage.jpg';
+        }
+
         $venueid = $request->session()->get('venueid');  
         $calendar = new Calendar;
         $calendar->venue_id = $venueid;
@@ -85,6 +134,8 @@ class CalendarController extends Controller
         $calendar->color = $request->input('color');
         $calendar->start_date = $request->input('start_date');
         $calendar->end_date = $request->input('end_date');
+        $calendar->approval_letter = $approvalLetterNameToStore;
+        $calendar->event_image = $eventImageToStore;
         $calendar->save();
 
         return redirect('events')->with('success', 'Event Created');
