@@ -69,7 +69,7 @@
                     <th>Title</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th></th>
+                    <th>View Document</th>
                 </tr>
             </thead>
             @foreach ($calendar as $calendarlist)
@@ -85,6 +85,11 @@
                             <input type="hidden" name="id" id="{{$calendarlist->id}}" value= {{$calendarlist->id}}>    
                             <button type="submit" class="btn btn-primary">Approve</button>
                         {{Form::close()}}
+                    </td>
+                    <td>
+                        <a href="public/storage/approval_letter/{{$calendarlist->approval_letter}}.pdf" download>
+                            <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-download"> Download</i></button>
+                        </a>
                     </td>
                     </tr>
                                    

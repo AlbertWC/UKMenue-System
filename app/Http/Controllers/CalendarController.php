@@ -70,13 +70,14 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'title' => 'required',
             'color' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'approval_letter' => 'required|nullable|max:1999',
-            'event_image' => 'required|nullable|max:1999'
+            'approval_letter' => 'required|mimetypes:application/pdf|max:100000',
+            'event_image' => 'image|nullable|max:1999'
             
 
         ]);
@@ -232,6 +233,10 @@ class CalendarController extends Controller
         $calendar = \Calendar::addEvents($calendar);
        
         return view('calendars.calendars', compact('calendars', 'calendar'));
+        
+    }
+    public function downloadpdf()
+    {
         
     }
 
