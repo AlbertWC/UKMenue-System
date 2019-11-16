@@ -76,7 +76,7 @@ class CalendarController extends Controller
             'color' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'approval_letter' => 'required|mimetypes:application/pdf|max:100000',
+            'approval_letter.*' => 'required|mimes:zip,pdf|max:100000',
             'event_image' => 'image|nullable|max:1999',
             'declinemessage' => 'nullable'
             
@@ -185,7 +185,7 @@ class CalendarController extends Controller
             'color' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'approval_letter' => 'required|mimetypes:application/pdf|max:100000',
+            'approval_letter.*' => 'required|mimes:zip,pdf|max:100000',
             'event_image' => 'image|nullable|max:1999',
             'declinemessage' => 'nullable'
 
@@ -287,10 +287,15 @@ class CalendarController extends Controller
         return view('calendars.calendars', compact('calendars', 'calendar'));
         
     }
-    public function downloadpdf($pdffilename)
+    public function viewpdf($pdffilename)
     {
-        $file_path = public_path('/storage/approval_letter/'.$pdffilename.'.pdf');
-        return response()->download($file_path);
+        // $file_path = public_path('public/storage/approval_letter/'.$pdffilename.'.pdf');
+        // $headers = [
+        //     'Content-Type' => 'application/pdf',
+        // ];
+        // return response()->download($file_path, 'filename.pdf', $headers);
+
+        return response()->file('public/storage/approval_letter/'.$pdffilename.'.pdf');
     }
 
 }

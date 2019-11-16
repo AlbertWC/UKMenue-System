@@ -69,6 +69,7 @@
                     <th>Title</th>
                     <th>Start Date</th>
                     <th>End Date</th>
+                    <th>Action</th>
                     <th>View Document</th>
                 </tr>
             </thead>
@@ -97,7 +98,7 @@
                         {{Form::close()}} --}}
                     </td>
                     <td>
-                        <a download href="storage/approval_letter/{{$calendarlist->approval_letter}}.pdf">
+                        <a download href="/public/storage/approval_letter/'.{{$calendarlist->approval_letter}}.'pdf">
                             <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-download"> Download</i></button>
                         </a>
                     </td>

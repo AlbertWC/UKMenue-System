@@ -41,7 +41,7 @@ Route::prefix('calendars')->group(function()
 
 Route::prefix('admin')->group(function()
 {
-    Route::get('/downloadpdf/{filename}', 'CalendarController@downloadpdf');
+    Route::get('/downloadpdf/{{filename}}', 'CalendarController@downloadpdf');
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::get('/', 'AdminController@index')->name('admin.dashboard');
