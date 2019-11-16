@@ -21,11 +21,37 @@ class ApprovalController extends Controller
         $id = $request->input('id');
 
         $calendar = Calendar::find($id);
-        if ($calendar->approval == false)
+
+        if ($request->input('approvebtn') == "approve" && $calendar->approval == false)
         {
             $calendar->approval = true;
             $calendar->update();
+            return redirect('calendars/approval')->with('success', 'Event Approved');
         }
-        return redirect('calendars/approval')->with('success', 'Event Approved');
+        elseif ($request->input('declinebtn') == "decline" && $calendar->decline == false)
+        {
+            $this->validate($request, [
+                'declinemessage' => 'required|min:12'
+            ]);
+            $calendar->decline = true;
+            $calendar->declinemessage = $request->input('declinemessage');
+            $calendar->update();
+            return redirect('calendars/approval')->with('success', 'Event Declined');
+        }
+        
+        
     }
+    // public function declineevent(Request $request)
+    // {
+    //     $id = $request->input('id');
+
+    //     $calendar = Calendar::find($id);
+
+    //     if($calendar->decline == false)
+    //     {
+    //         $calendar->decline = true;
+    //         $calendar->declinemessage = $request->input('declinemessage');
+    //         $calendar->update();
+    //     }
+    // }
 }

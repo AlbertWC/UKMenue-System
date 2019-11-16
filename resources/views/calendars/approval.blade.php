@@ -74,7 +74,7 @@
             </thead>
             @foreach ($calendar as $calendarlist)
             <tbody>
-                @if ($calendarlist->approval == '0')
+                @if ($calendarlist->approval == '0' && $calendarlist->decline == 0)
                 <tr>
                     <td>{{$calendarlist->id}}</td>
                     <td>{{$calendarlist->title}}</td>
@@ -82,12 +82,22 @@
                     <td>{{$calendarlist->end_date}}</td>
                     <td>
                         {{Form::open(['action' => ['ApprovalController@updateevent', $calendarlist->id], 'method'=> 'POST'])}}
+                            {{Form::text('declinemessage', '', ['class' => 'form-control', 'placeholder' => 'Decline Message'])}}
                             <input type="hidden" name="id" id="{{$calendarlist->id}}" value= {{$calendarlist->id}}>    
-                            <button type="submit" class="btn btn-primary">Approve</button>
+                            <button name="approvebtn" id="approvebtn" type="submit" class="btn btn-primary" value="approve">Approve</button>
+                            <button name="declinebtn" id="declinebtn" type="submit" class="btn btn-primary" value="decline">Decline</button>
+
                         {{Form::close()}}
                     </td>
                     <td>
-                        <a href="public/storage/approval_letter/{{$calendarlist->approval_letter}}.pdf" download>
+                        {{-- {{Form::open(['action' => ['ApprovalController@declineevent', $calendarlist->id], 'method'=> 'POST'])}}
+                        {{Form::text('declinemessage', '', ['class' => 'form-control', 'placeholder' => 'Decline Message'])}}
+                            <input type="hidden" name="id" id="{{$calendarlist->id}}" value= {{$calendarlist->id}}>    
+                            <button type="submit" class="btn btn-primary">Approve</button>
+                        {{Form::close()}} --}}
+                    </td>
+                    <td>
+                        <a download href="storage/approval_letter/{{$calendarlist->approval_letter}}.pdf">
                             <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-download"> Download</i></button>
                         </a>
                     </td>

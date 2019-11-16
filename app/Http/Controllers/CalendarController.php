@@ -77,7 +77,8 @@ class CalendarController extends Controller
             'start_date' => 'required',
             'end_date' => 'required',
             'approval_letter' => 'required|mimetypes:application/pdf|max:100000',
-            'event_image' => 'image|nullable|max:1999'
+            'event_image' => 'image|nullable|max:1999',
+            'declinemessage' => 'nullable'
             
 
         ]);
@@ -137,6 +138,7 @@ class CalendarController extends Controller
         $calendar->end_date = $request->input('end_date');
         $calendar->approval_letter = $approvalLetterNameToStore;
         $calendar->event_image = $eventImageToStore;
+        $calendar->declinemessage = "";
         $calendar->save();
 
         return redirect('events')->with('success', 'Event Created');
@@ -183,12 +185,62 @@ class CalendarController extends Controller
             'color' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
+            'approval_letter' => 'required|mimetypes:application/pdf|max:100000',
+            'event_image' => 'image|nullable|max:1999',
+            'declinemessage' => 'nullable'
+
         ]);
         $calendar = Calendar::find($id);
         $calendar->title = $request->input('title');
         $calendar->color = $request->input('color');
         $calendar->start_date = $request->input('start_date');
         $calendar->end_date = $request->input('end_date');
+        //approval_letter
+        if($request->hasFile('approval_letter'))
+        {
+            // get file name with the extension
+            $approvalLetterWithExt = $request->file('approval_letter')->getClientOriginalName(); 
+            
+            // get file name
+            $approvalLetter = pathinfo($approvalLetterWithExt, PATHINFO_FILENAME);
+
+            // get the file extension
+            $approvalletterextension = $request->file('approval_letter')->getClientOriginalExtension();
+        
+            // file name to store
+            $approvalLetterNameToStore  = $approvalLetter.'_'.time().'_'.$approvalletterextension;
+
+            //Upload image 
+            $path = $request->file('approval_letter')->storeAs('public/approval_letter',$approvalLetterNameToStore);
+        }
+        $calendar->approval_letter = $approvalLetterNameToStore;
+
+         //event_image
+         if($request->hasFile('event_image'))
+         {
+             // get file name with the extension
+            $eventImageWithExt = $request->file('event_image')->getClientOriginalName(); 
+             
+            // get file name
+            $eventImage = pathinfo($eventImageWithExt, PATHINFO_FILENAME);
+ 
+            // get the file extension
+             $eventImageExtension = $request->file('event_image')->getClientOriginalExtension();
+         
+             // file name to store
+             $eventImageToStore  = $eventImage.'_'.time().'_'.$eventImageExtension;
+ 
+             //Upload image 
+             $path = $request->file('event_image')->storeAs('public/event_image',$eventImageToStore);
+         }
+
+        $calendar->event_image = $eventImageToStore;
+
+        if($calendar->decline == 1 || $calendar->approve == 0)
+        {
+            $calendar->decline = 0;
+        }
+        $calendar->declinemessage = "";
 
         $calendar->save();
         return redirect('events')->with('success', "Event Updated");
@@ -235,9 +287,10 @@ class CalendarController extends Controller
         return view('calendars.calendars', compact('calendars', 'calendar'));
         
     }
-    public function downloadpdf()
+    public function downloadpdf($pdffilename)
     {
-        
+        $file_path = public_path('/storage/approval_letter/'.$pdffilename.'.pdf');
+        return response()->download($file_path);
     }
 
 }

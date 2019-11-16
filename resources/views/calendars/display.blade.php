@@ -2,6 +2,7 @@
 
 @section('content')
  {{-- @if (Auth::user()->id == $calendar->user_id)  --}}
+
  <div class="container">
         <div class="header">
             <h1>List of Events</h1>
@@ -29,9 +30,13 @@
                         <td>{{$calendarlist->color}}</td>
                         <td>{{$calendarlist->start_date}}</td>
                         <td>{{$calendarlist->end_date}}</td>
-                        <td>@if ($calendarlist->approval == 1)
+                        <td>
+                        @if ($calendarlist->approval == 1)
                             Approved
-                            @else
+                        @elseif($calendarlist->decline == 1)
+                            Rejected! 
+                            {{$calendarlist->declinemessage}}
+                        @else
                             Pending
                         @endif</td>
                         <th>
