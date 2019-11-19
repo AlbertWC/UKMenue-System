@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
 
-    <div class="card-body">
+
+    <div class="card-body" id="showcard">
         <a href="/venues" class="btn btn-secondary">Go Back</a>
         {{-- <button type="button" class="btn btn-secondary" href=>Secondary</button>  --}}
         <h3>{{$venue->venue_name}}</h3>
@@ -25,8 +25,6 @@
             {!!Form::close()!!}
         @endif
     </div>
-</div>
-
 @endsection
 
 @section('calendar')

@@ -31,10 +31,10 @@
             <a class="nav-link" href="/feedbacks">Insert Feedback</a>
           </li>
         @endif
-
+          
           {{-- temporarily logout --}}
             <li class="nav-item">
-              <a class="nav-item" href="{{ route('logout') }}"
+              <a class="nav-link"href="{{ route('logout') }}"
                   onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
                   {{ __('Logout') }}
@@ -44,8 +44,10 @@
                   @csrf
               </form>
             </li>
+       
 
         </ul>
+
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
               @guest
@@ -60,7 +62,7 @@
           @else
 
               <li class="nav-item dropdown">
-                  <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" v-pre>
+                  <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                       {{ Auth::user()->name }} <span class="caret"></span>
                   </a>
 
@@ -77,7 +79,6 @@
                   </div>
               </li>
           @endguest
-          </li>
         </ul>
     </div>
 </nav>

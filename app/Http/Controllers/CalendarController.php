@@ -76,8 +76,8 @@ class CalendarController extends Controller
             'color' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'approval_letter.*' => 'required|mimes:zip,pdf|max:100000',
-            'event_image' => 'image|nullable|max:1999',
+            'approval_letter.*' => 'required|max:1000000',
+            'event_image' => 'image|nullable|max:19999',
             'declinemessage' => 'nullable'
             
 
@@ -95,7 +95,7 @@ class CalendarController extends Controller
             $approvalletterextension = $request->file('approval_letter')->getClientOriginalExtension();
         
             // file name to store
-            $approvalLetterNameToStore  = $approvalLetter.'_'.time().'_'.$approvalletterextension;
+            $approvalLetterNameToStore  = $approvalLetter.'.'.$approvalletterextension;
 
             //Upload image 
             $path = $request->file('approval_letter')->storeAs('public/approval_letter',$approvalLetterNameToStore);
@@ -104,7 +104,11 @@ class CalendarController extends Controller
         {
             $approvalLetterNameToStore = 'nodocument.jpg';
         }
-
+        // dd($approvalLetterWithExt);
+        //dd($approvalLetter);
+        //dd($approvalletterextension);
+        //dd($approvalLetterNameToStore);
+        //dd($path);
         //event_image
         if($request->hasFile('event_image'))
         {
@@ -203,15 +207,16 @@ class CalendarController extends Controller
             
             // get file name
             $approvalLetter = pathinfo($approvalLetterWithExt, PATHINFO_FILENAME);
-
+            //dd($approvalLetter);
             // get the file extension
             $approvalletterextension = $request->file('approval_letter')->getClientOriginalExtension();
-        
+           // dd($approvalletterextension);
             // file name to store
             $approvalLetterNameToStore  = $approvalLetter.'_'.time().'_'.$approvalletterextension;
-
+            //dd($approvalLetterNameToStore);
             //Upload image 
             $path = $request->file('approval_letter')->storeAs('public/approval_letter',$approvalLetterNameToStore);
+            //dd($path);
         }
         $calendar->approval_letter = $approvalLetterNameToStore;
 

@@ -15,6 +15,11 @@
                     @endif
 
                     You are logged in as <strong>User</strong> !
+                    <div class="card-body">
+                        <a href="/venues" class="btn btn-primary">View Venue</a>
+                        <a href="/events" class="btn btn-primary">My Profile</a>
+                        <a href="/feedbacks" class="btn btn-primary">Submit Feedback</a>
+                    </div>
                 </div>
             </div>
         </div>

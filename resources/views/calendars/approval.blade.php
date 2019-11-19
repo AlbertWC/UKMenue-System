@@ -91,14 +91,7 @@
                         {{Form::close()}}
                     </td>
                     <td>
-                        {{-- {{Form::open(['action' => ['ApprovalController@declineevent', $calendarlist->id], 'method'=> 'POST'])}}
-                        {{Form::text('declinemessage', '', ['class' => 'form-control', 'placeholder' => 'Decline Message'])}}
-                            <input type="hidden" name="id" id="{{$calendarlist->id}}" value= {{$calendarlist->id}}>    
-                            <button type="submit" class="btn btn-primary">Approve</button>
-                        {{Form::close()}} --}}
-                    </td>
-                    <td>
-                        <a download href="/public/storage/approval_letter/'.{{$calendarlist->approval_letter}}.'pdf">
+                        <a download href="/storage/approval_letter/{{$calendarlist->approval_letter}}">
                             <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-download"> Download</i></button>
                         </a>
                     </td>

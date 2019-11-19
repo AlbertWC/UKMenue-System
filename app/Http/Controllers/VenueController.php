@@ -156,7 +156,7 @@ class VenueController extends Controller
         $this->validate($request,[
             'title' => 'required',
             'body' => 'required',
-            'venue_image' => 'image|nullable|max:1999'
+            'venue_image' => 'image|nullable|max:199999'
         ]);
         
         if($request->hasFile('venue_image'))
@@ -176,6 +176,7 @@ class VenueController extends Controller
                 //Upload image 
                 $path = $request->file('venue_image')->storeAs('public/venue_image',$fileNameToStore);
             }
+            
         //Create Venue
         $venue = Venue::find($venue_id);
         $venue->venue_name = $request->input('title');
