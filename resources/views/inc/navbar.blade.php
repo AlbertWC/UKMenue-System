@@ -1,11 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   {{-- Dashboard --}}
-  @if (Auth::guard('web')->check())
-  <a class="navbar-brand" href="/home">UKMenue Event Planning System</a>      
-  @else
-  <a class="navbar-brand" href="/admin">UKMenue Event Planning System</a>
-  
-  @endif
+    @if (Auth::guard('web')->check())
+    <a class="navbar-brand" href="/home">UKMenue Event Planning System</a>      
+    @else
+    <a class="navbar-brand" href="/admin">UKMenue Event Planning System</a>
+    
+    @endif
+    {{-- ukmenue logo end --}}
+    
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
 
@@ -72,6 +74,7 @@
                                         document.getElementById('logout-form').submit();">
                           {{ __('Logout') }}
                       </a>
+                      <a class="dropdown-item" href="/venues">qweqwe</a>
 
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                           @csrf
