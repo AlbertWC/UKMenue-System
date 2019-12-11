@@ -26,7 +26,7 @@ class AddImageToVenues extends Migration
     public function down()
     {
         Schema::table('venues', function (Blueprint $table) {
-            $tabke->dropColumn('venue_image');
+            $table->dropColumn('venue_image');
         });
     }
 }

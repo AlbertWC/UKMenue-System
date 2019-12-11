@@ -91,8 +91,11 @@
                         {{Form::close()}}
                     </td>
                     <td>
+                        {{-- <a download href="/storage/event_image/{{$calendarlist->event_image}}.jpg">
+                            <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-download"> Download Poster</i></button>
+                        </a> --}}
                         <a download href="/storage/approval_letter/{{$calendarlist->approval_letter}}">
-                            <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-download"> Download</i></button>
+                            <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-download"> Download Approval Letter</i></button>
                         </a>
                     </td>
                     </tr>

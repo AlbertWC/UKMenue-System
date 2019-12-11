@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Admin Dashboard</div>
@@ -30,7 +31,7 @@
             <div class="card-body">
                 Total Event Applied
                 <br>
-                {{$totalevent->id}}
+                {{$maxevent}}
             </div>
             <div class="card-body">
                 Today application submitted
@@ -43,8 +44,22 @@
                 {{count($haventapprove)}}
             </div>
 
+            </div>
         </div>
-        
+        <div class="row">
+            <div class="card">
+                @foreach ($venue as $venuelist)
+                <script>var countervenue=0;</script>
+                    <div class="card-header">
+                        {{$venuelist->venue_name}}
+                    </div>
+                    <div class="card-body">
+                       {{$venuecounter}}
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
     </div>
     
 </div>
