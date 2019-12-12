@@ -32,6 +32,7 @@ class AdminController extends Controller
         $todayapply = Calendar::get();
         $venue = Venue::get();
         $venuecounterlist = [];
+        $venuecounter = 0;
 
         // foreach($venue as $venuelist)
         // {
@@ -76,7 +77,16 @@ class AdminController extends Controller
             }
             $venuecounterlist = array($venuecounter);
         };
+        $date  = DB::table('calendars')->whereMonth('created_at', date('m'))->get();
+        $todayvenue = DB::table('calendars')->whereDay('created_at', date('d'))->get();
+        $yesterday = DB::table('calendars')->whereDay('created_at', date('d')-1)->get();
+        // dd($yesterday);
+        // dd($todayvenue);
         // dd($maxevent);
+        $empty = 0;
+        $todayvenuecounter = 0;
+        $venuemonthcounter = 0;
+        $rate = 0;
         $data = [
             'haventapprove' => $haventapprove,
             'totalevent' => $totalevent,
@@ -86,6 +96,13 @@ class AdminController extends Controller
             'venuecounter' => $venuecounter,
             'venuecounterlist'=> $venuecounterlist,
             'maxevent' => $maxevent,
+            'date' => $date,
+            'todayvenue' => $todayvenue,
+            'todayvenuecounter' => $todayvenuecounter,
+            'empty' => $empty,
+            'venuemonthcounter' => $venuemonthcounter,
+            'rate' => $rate,
+            'yesterday' => $yesterday,
         ];
         // dd($venuecounterlist);
         return view('admin')->with($data);

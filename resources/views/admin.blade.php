@@ -54,8 +54,38 @@
                         {{$venuelist->venue_name}}
                     </div>
                     <div class="card-body">
-                       {{$venuecounter}}
+                       @foreach ($todayvenue as $eachvenue)
+                           @if ($eachvenue->venue_id == $venuelist->venue_id)
+                               @php
+                                   $todayvenuecounter += 1
+                               @endphp
+                           @endif
+                       @endforeach
+                       @foreach ($date as $month)
+                           @if ($month->venue_id == $venuelist->venue_id)
+                               @php
+                                   $venuemonthcounter += 1;
+                               @endphp
+                           @endif
+                       @endforeach
+                       @php
+                          $rate =  $todayvenuecounter - (count($yesterday))
+                       @endphp
+                       This month: {{$venuemonthcounter}}
+                       <br>
+                       Today: {{$todayvenuecounter}}
+                       <br>
+                       Rate:
+                       @if ($todayvenuecounter > count($yesterday))
+                            increase : {{$rate}}
+                        @else
+                            decrease : {{$rate}}
+                       @endif
                     </div>
+                    @php
+                    $venuemonthcounter = 0;
+                    $todayvenuecounter = 0;
+                   @endphp
                 @endforeach
             </div>
         </div>
